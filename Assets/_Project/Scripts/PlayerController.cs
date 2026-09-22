@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VContainer;
 
 namespace _Project.Scripts
 {
@@ -13,9 +14,10 @@ namespace _Project.Scripts
         
         private PlayerInputSystem _playerInput;
 
-        private void Awake()
+        [Inject]
+        private void Init(PlayerInputSystem playerInput)
         {
-            _playerInput = new PlayerInputSystem();
+            _playerInput = playerInput;
         }
 
         private void OnEnable()
