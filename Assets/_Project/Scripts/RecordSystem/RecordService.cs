@@ -18,7 +18,6 @@ namespace _Project.Scripts.RecordSystem
     public interface IRecordService
     {
         bool TryStartRecord(List<InputFrame> inputFrames, float time);
-        bool TryGetFrame(List<InputFrame> inputFrames, int n, out InputFrame inputFrame);
     }
     
     public class RecordService : IRecordService, IDisposable
@@ -53,19 +52,6 @@ namespace _Project.Scripts.RecordSystem
             
             _coroutineRunner.Run(TakeFrames(inputFrames, time));
             return true;
-        }
-
-        public bool TryGetFrame(List<InputFrame> inputFrames, int n, out InputFrame inputFrame)
-        {
-            if (n >= 0 && n < inputFrames.Count)
-            {
-                inputFrame = inputFrames[n];
-                return true;
-            }
-            
-            Debug.Log("n is out of range");
-            inputFrame = default;
-            return false;
         }
 
         private IEnumerator TakeFrames(List<InputFrame> inputFrames, float time)
