@@ -26,8 +26,7 @@ namespace _Project.Scripts.VContanier
             builder.RegisterComponent(_coroutineRunner);
             builder.RegisterComponent(_playerController);
             builder.RegisterComponent(_levelManager);
-
-            builder.RegisterComponentInNewPrefab(_echoPrefab, Lifetime.Scoped);
+            builder.RegisterComponent(_echoPrefab);
         }
     }
 }

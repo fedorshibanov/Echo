@@ -52,6 +52,8 @@ namespace _Project.Scripts.Level
                 ReloadEntities(_player, _echos);
                 yield return null;
             }          
+            
+            OnGameOver?.Invoke();
         }
 
         private void ReloadEntities(PlayerController player, List<EchoController> echos)
