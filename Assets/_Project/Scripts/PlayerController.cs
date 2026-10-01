@@ -6,7 +6,7 @@ using VContainer;
 namespace _Project.Scripts
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour, IRewindable
+    public class PlayerController : MonoBehaviour
     {
         [Header("Movement")]
         [SerializeField] private float _moveSpeed = 10f;

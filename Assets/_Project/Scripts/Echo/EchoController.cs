@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,12 +18,23 @@ namespace _Project.Scripts.Echo
         
         private List<InputFrame> _inputFrames;
         private bool _isPlaying;
-        
+
         public void MoveEcho()
         {
             if (_isPlaying) return;
             
             StartCoroutine(PlayRecord(_inputFrames));
+        }
+        
+        public void SetFrames(List<InputFrame> frames)
+        {
+            _inputFrames = frames;
+        }
+        
+        public void Rewind(Transform startPoint)
+        {
+            transform.position = startPoint.position;
+            MoveEcho();
         }
 
         private IEnumerator PlayRecord(List<InputFrame> inputFrames)
@@ -45,11 +58,6 @@ namespace _Project.Scripts.Echo
         {
             if (isJump)
                 _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-        }
-
-        public void SetFrames(List<InputFrame> frames)
-        {
-            _inputFrames = frames;
         }
     }
 }

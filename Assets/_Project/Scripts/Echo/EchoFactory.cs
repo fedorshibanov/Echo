@@ -10,17 +10,31 @@ namespace _Project.Scripts.Echo
     {
         private readonly EchoController _echoPrefab;
         private readonly IObjectResolver _objectResolver;
+        private readonly EchoService _echoService;
 
-        public EchoFactory(EchoController echoPrefab, IObjectResolver objectResolver)
+        public EchoFactory(EchoController echoPrefab, IObjectResolver objectResolver, EchoService echoService)
         {
             _echoPrefab = echoPrefab;
             _objectResolver = objectResolver;
+            _echoService = echoService;
         }
         
         public EchoController Spawn(List<InputFrame> frames)
         {
             var echo = _objectResolver.Instantiate(_echoPrefab);
             echo.SetFrames(frames);
+            return echo;
+        }
+        
+        public EchoController Spawn(List<InputFrame> frames, Transform position)
+        {
+            var echo = _objectResolver.Instantiate(_echoPrefab);
+            
+            echo.transform.position = position.position;
+            echo.SetFrames(frames);
+            
+            _echoService.AddEcho(echo);
+            
             return echo;
         }
     }

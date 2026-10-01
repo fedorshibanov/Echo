@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Echo;
+using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using VContainer;
@@ -11,21 +12,21 @@ namespace _Project.Scripts.Level
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private LevelData _levelData;
+        [Space]
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private PlayerController _player;
         
         public event Action OnGameOver;
 
-        private List<EchoController> _echos = new List<EchoController>();
-
         private IRecordService _recordService;
         private EchoFactory _echoFactory;
+        private RewindService _rewindService;
         
         [Inject]
-        private void Init(IRecordService recordService, EchoFactory echoFactory)
+        private void Init(IRecordService recordService, EchoFactory echoFactory, RewindService rewindService)
         {
             _recordService = recordService;
             _echoFactory = echoFactory;
+            _rewindService = rewindService;
         }
 
         private void Start()
@@ -33,9 +34,8 @@ namespace _Project.Scripts.Level
             StartLevel();
         }
 
-        public void StartLevel()
+        private void StartLevel()
         {
-            ReloadEntities(_player,  _echos);
             StartCoroutine(StartGameCycle());
         }
 
@@ -45,26 +45,18 @@ namespace _Project.Scripts.Level
             {
                 var frames = new List<InputFrame>();
                 _recordService.TryStartRecord(frames, _levelData.time);
+                
                 yield return new WaitForSeconds(_levelData.time);
 
-                var echo = _echoFactory.Spawn(frames);
-                _echos.Add(echo);
-                ReloadEntities(_player, _echos);
+                _echoFactory.Spawn(frames, _spawnPoint);
+                
+                _rewindService.RewindEntities(_spawnPoint.position);
+                _rewindService.RewindItems();
+                
                 yield return null;
             }          
             
             OnGameOver?.Invoke();
-        }
-
-        private void ReloadEntities(PlayerController player, List<EchoController> echos)
-        {
-            player.transform.position = _spawnPoint.position;
-            
-            foreach (var echo in echos)
-            {
-                echo.transform.position = _spawnPoint.position;
-                echo.MoveEcho();
-            }
         }
     }
 }
