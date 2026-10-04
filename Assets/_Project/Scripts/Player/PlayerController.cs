@@ -1,9 +1,8 @@
-using _Project.Scripts.InteractionObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
 
-namespace _Project.Scripts
+namespace _Project.Scripts.Player
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
@@ -30,9 +29,6 @@ namespace _Project.Scripts
 
         private PlayerInputSystem _playerInput;
 
-        private Vector3 _startPosition;
-        private Quaternion _startRotation;
-
         private bool _isGrounded;
         private bool _jumpHeld;
         private float _lastGroundedTime = float.NegativeInfinity;
@@ -48,12 +44,6 @@ namespace _Project.Scripts
 
             _rb.freezeRotation = true;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
-        }
-
-        private void Start()
-        {
-            _startPosition = _rb.position;
-            _startRotation = _rb.rotation;
         }
 
         private void OnEnable()
@@ -75,14 +65,6 @@ namespace _Project.Scripts
             CheckGround();
             Move();
             Jump();
-        }
-
-        public void Rewind()
-        {
-            _rb.position = _startPosition;
-            _rb.rotation = _startRotation;
-            _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
         }
 
         private void CheckGround()

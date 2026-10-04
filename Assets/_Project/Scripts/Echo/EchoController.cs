@@ -63,22 +63,6 @@ namespace _Project.Scripts.Echo
             _isPlaying = true;
         }
 
-        public void Rewind(Transform startPoint)
-        {
-            StopPlayback();
-
-            transform.SetPositionAndRotation(startPoint.position, startPoint.rotation);
-            _rb.position = startPoint.position;
-            _rb.rotation = startPoint.rotation;
-            _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-
-            _lastGroundedTime = float.NegativeInfinity;
-            _lastJumpPressedTime = float.NegativeInfinity;
-
-            MoveEcho();
-        }
-
         private void FixedUpdate()
         {
             ReadCurrentFrame();

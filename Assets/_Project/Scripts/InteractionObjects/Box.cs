@@ -3,8 +3,12 @@ using UnityEngine;
 namespace _Project.Scripts.InteractionObjects
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Box : MonoBehaviour, IRewindable
+    public class Box : MonoBehaviour, IRewindable, IPlateInteractable
     {
+        [SerializeField] private float _mass;
+        public float Mass => _mass;
+        
+        [Space]
         [SerializeField] private Rigidbody _rb;
         
         private Vector3 _startPoint;

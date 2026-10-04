@@ -3,6 +3,7 @@ using System.Linq;
 using _Project.Scripts.Echo;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.Level;
+using _Project.Scripts.Player;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using VContainer;

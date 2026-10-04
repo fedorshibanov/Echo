@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2370668921018644506}
   - component: {fileID: 7128931000161800148}
   - component: {fileID: 5073387742051562682}
+  - component: {fileID: 832575662626211076}
   - component: {fileID: 7412844854948892862}
   m_Layer: 6
   m_Name: Echo
@@ -143,6 +144,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &832575662626211076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5666174497829802572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b059ed23b5846edaf2b756c2d394b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Echo.Echo
+  _mass: 2
 --- !u!114 &7412844854948892862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,5 +170,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Echo.EchoController
   _moveSpeed: 10
-  _jumpForce: 10
+  _acceleration: 60
+  _deceleration: 80
+  _airControl: 0.5
+  _rotationSpeed: 720
+  _jumpHeight: 1.5
+  _fallMultiplier: 2.5
+  _coyoteTime: 0.12
+  _jumpBufferTime: 0.12
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _groundCheckOffset: {x: 0, y: 0.05, z: 0}
+  _groundCheckRadius: 0.3
   _rb: {fileID: 7128931000161800148}

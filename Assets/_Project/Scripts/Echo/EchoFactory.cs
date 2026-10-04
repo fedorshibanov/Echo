@@ -19,13 +19,6 @@ namespace _Project.Scripts.Echo
             _echoService = echoService;
         }
         
-        public EchoController Spawn(List<InputFrame> frames)
-        {
-            var echo = _objectResolver.Instantiate(_echoPrefab);
-            echo.SetFrames(frames);
-            return echo;
-        }
-        
         public EchoController Spawn(List<InputFrame> frames, Transform position)
         {
             var echo = _objectResolver.Instantiate(_echoPrefab);
