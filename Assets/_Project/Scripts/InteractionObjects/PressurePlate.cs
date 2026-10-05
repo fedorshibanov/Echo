@@ -14,12 +14,6 @@ namespace _Project.Scripts.InteractionObjects
         private float _allMass;
         private bool _isActivated;
 
-        private void Start()
-        {
-            OnActivated += () => { Debug.Log("OnActivated"); };
-            OnDeactivated += () => { Debug.Log("OnDeactivated"); };
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent<IPlateInteractable>(out var obj))

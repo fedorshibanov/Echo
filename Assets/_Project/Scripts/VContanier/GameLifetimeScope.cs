@@ -27,19 +27,18 @@ namespace _Project.Scripts.VContanier
         {
             builder.Register<PlayerInputSystem>(Lifetime.Singleton);
             builder.Register<IRecordService, RecordService>(Lifetime.Singleton);
-            builder.Register<EchoFactory>(Lifetime.Scoped); //check RegisterFactory
-            builder.Register<EchoService>(Lifetime.Scoped); //check RegisterFactory
+            builder.Register<EchoFactory>(Lifetime.Scoped);
+            builder.Register<EchoService>(Lifetime.Scoped);
             builder.Register<RewindService>(Lifetime.Scoped);
-            
+
             builder.RegisterComponent(_coroutineRunner);
             builder.RegisterComponent(_playerController);
             builder.RegisterComponent(_levelManager);
             builder.RegisterComponent(_echoPrefab);
-            
-            foreach (var item in _rewindItems.OfType<IRewindable>())
-            {
-                builder.RegisterComponent(item).As<IRewindable>();
-            }
+
+            var rewindItems = _rewindItems.OfType<IRewindable>().ToList();
+
+            builder.RegisterInstance<IReadOnlyList<IRewindable>>(rewindItems);
         }
     }
 }
