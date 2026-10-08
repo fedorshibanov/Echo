@@ -26,7 +26,8 @@ namespace _Project.Scripts.VContanier
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<PlayerInputSystem>(Lifetime.Singleton);
-            builder.Register<IRecordService, RecordService>(Lifetime.Singleton);
+            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton);
+            builder.Register<IRecordService, RecordService>(Lifetime.Scoped);
             builder.Register<EchoFactory>(Lifetime.Scoped);
             builder.Register<EchoService>(Lifetime.Scoped);
             builder.Register<RewindService>(Lifetime.Scoped);

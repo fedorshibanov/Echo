@@ -17,7 +17,7 @@ namespace _Project.Scripts.RecordSystem
     
     public interface IRecordService
     {
-        bool TryStartRecord(List<InputFrame> inputFrames, float time);
+        bool TryStartRecord(List<InputFrame> inputFrames, float time, Action onComplete);
     }
     
     public class RecordService : IRecordService, IDisposable
@@ -42,7 +42,7 @@ namespace _Project.Scripts.RecordSystem
             _playerInput.Player.Jump.performed -= OnJump;
         }
         
-        public bool TryStartRecord(List<InputFrame> inputFrames, float time)
+        public bool TryStartRecord(List<InputFrame> inputFrames, float time, Action onComplete)
         {
             if (_isRecording)
             {
@@ -50,11 +50,11 @@ namespace _Project.Scripts.RecordSystem
                 return false;
             }
             
-            _coroutineRunner.Run(TakeFrames(inputFrames, time));
+            _coroutineRunner.Run(TakeFrames(inputFrames, time, onComplete));
             return true;
         }
 
-        private IEnumerator TakeFrames(List<InputFrame> inputFrames, float time)
+        private IEnumerator TakeFrames(List<InputFrame> inputFrames, float time, Action onComplete)
         {
             _isRecording = true;
             
@@ -68,6 +68,7 @@ namespace _Project.Scripts.RecordSystem
             
             Debug.Log("Record Done");
             _isRecording = false;
+            onComplete?.Invoke();
         }
 
         private void OnJump(InputAction.CallbackContext context) => _jumpPressed = true;

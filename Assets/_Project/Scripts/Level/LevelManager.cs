@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.Echo;
-using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using VContainer;
@@ -11,7 +10,7 @@ namespace _Project.Scripts.Level
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] private LevelData _levelData;
+        [SerializeField] private LevelConfig _levelConfig;
         [Space]
         [SerializeField] private Transform _spawnPoint;
         
@@ -41,19 +40,21 @@ namespace _Project.Scripts.Level
 
         private IEnumerator StartGameCycle()
         {
-            for (var i = 0; i < _levelData.echoMax; i++)
+            for (var i = 0; i < _levelConfig.echoMax; i++)
             {
                 var frames = new List<InputFrame>();
-                _recordService.TryStartRecord(frames, _levelData.time);
+                var isDone = false;
                 
-                yield return new WaitForSeconds(_levelData.time);
+                if(!_recordService.TryStartRecord(frames, _levelConfig.time, () => isDone = true))
+                    yield break;
+                
+                yield return new WaitUntil(() => isDone);
 
                 _echoFactory.Spawn(frames, _spawnPoint);
-                
                 _rewindService.RewindEntities(_spawnPoint.position);
                 _rewindService.RewindItems();
-                
-                yield return null;
+
+                yield return new WaitForFixedUpdate();
             }          
             
             OnGameOver?.Invoke();

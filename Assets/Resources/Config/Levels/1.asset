@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210e8de26c0e20743b6c84de4bd5ab7e, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.LevelData
+  scene:
+    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   id: 1
-  echoMax: 3
-  time: 100
+  echoMax: 8
+  time: 5
