@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using _Project.Scripts.Echo;
+using _Project.Scripts.EchoSystem;
 using _Project.Scripts.InteractionObjects;
-using _Project.Scripts.Player;
+using _Project.Scripts.PlayerSystem;
 using UnityEngine;
 
 namespace _Project.Scripts

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using _Project.Scripts.Echo;
+using _Project.Scripts.EchoSystem;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using VContainer;
@@ -13,19 +13,21 @@ namespace _Project.Scripts.Level
         [SerializeField] private LevelConfig _levelConfig;
         [Space]
         [SerializeField] private Transform _spawnPoint;
-        
-        public event Action OnGameOver;
 
         private IRecordService _recordService;
         private EchoFactory _echoFactory;
         private RewindService _rewindService;
+        private IGameEndService _gameEndService;
+
         
         [Inject]
-        private void Init(IRecordService recordService, EchoFactory echoFactory, RewindService rewindService)
+        private void Init(IRecordService recordService, EchoFactory echoFactory, 
+            RewindService rewindService, IGameEndService gameEndService)
         {
             _recordService = recordService;
             _echoFactory = echoFactory;
             _rewindService = rewindService;
+            _gameEndService = gameEndService;
         }
 
         private void Start()
@@ -57,7 +59,7 @@ namespace _Project.Scripts.Level
                 yield return new WaitForFixedUpdate();
             }          
             
-            OnGameOver?.Invoke();
+            _gameEndService.Lose();
         }
     }
 }

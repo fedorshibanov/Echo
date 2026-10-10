@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
 
-namespace _Project.Scripts.Player
+namespace _Project.Scripts.PlayerSystem
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour

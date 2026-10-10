@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using _Project.Scripts.Echo;
+using _Project.Scripts.EchoSystem;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.Level;
-using _Project.Scripts.Player;
+using _Project.Scripts.PlayerSystem;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using VContainer;
@@ -26,8 +26,9 @@ namespace _Project.Scripts.VContanier
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<PlayerInputSystem>(Lifetime.Singleton);
-            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton);
+            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton); // in main lifetimescope
             builder.Register<IRecordService, RecordService>(Lifetime.Scoped);
+            builder.Register<IGameEndService, GameEndService>(Lifetime.Scoped);
             builder.Register<EchoFactory>(Lifetime.Scoped);
             builder.Register<EchoService>(Lifetime.Scoped);
             builder.Register<RewindService>(Lifetime.Scoped);

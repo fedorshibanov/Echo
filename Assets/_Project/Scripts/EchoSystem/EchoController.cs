@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 
-namespace _Project.Scripts.Echo
+namespace _Project.Scripts.EchoSystem
 {
     [RequireComponent(typeof(Rigidbody))]
     public class EchoController : MonoBehaviour

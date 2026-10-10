@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace _Project.Scripts.Echo
+namespace _Project.Scripts.EchoSystem
 {
     public class EchoService
     {

@@ -1,9 +1,9 @@
 using _Project.Scripts.InteractionObjects;
 using UnityEngine;
 
-namespace _Project.Scripts.Echo
+namespace _Project.Scripts.PlayerSystem
 {
-    public class Echo : MonoBehaviour, IPlateInteractable
+    public class Player : MonoBehaviour, IPlateInteractable
     {
         [SerializeField] private float _mass;
         public float Mass => _mass;

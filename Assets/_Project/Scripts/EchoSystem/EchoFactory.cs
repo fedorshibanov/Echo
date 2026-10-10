@@ -4,7 +4,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace _Project.Scripts.Echo
+namespace _Project.Scripts.EchoSystem
 {
     public class EchoFactory
     {
