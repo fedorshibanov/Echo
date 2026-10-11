@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace _Project.Scripts.Level
 {
@@ -18,11 +19,13 @@ namespace _Project.Scripts.Level
         
         public void Win()
         {
+            Debug.Log("GameEndService.Win()");
             OnWin?.Invoke();
         }
 
         public void Lose()
         {
+            Debug.Log("GameEndService.Lose()");
             OnLose?.Invoke();
         }
     }

@@ -11,6 +11,7 @@ namespace _Project.Scripts
         
         Task NextLevel();
         Task LoadLevel(int levelIndex);
+        Task RestartLevel();
         void LoadMainMenu();
     }
     
@@ -30,6 +31,11 @@ namespace _Project.Scripts
         {
             CurrentLevelIndex = levelIndex;
             await LoadLevel(_levelConfigs[levelIndex]);
+        }
+
+        public async Task RestartLevel()
+        {
+            await LoadLevel(_levelConfigs[CurrentLevelIndex]);
         }
 
         public void LoadMainMenu()

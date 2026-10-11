@@ -10,7 +10,7 @@ namespace _Project.Scripts
     {
         private readonly EchoService _echoService;
         private readonly PlayerController _playerController;
-        private IReadOnlyList<IRewindable> _items;
+        private readonly IReadOnlyList<IRewindable> _items;
 
         public RewindService(EchoService echoService, PlayerController playerController, IReadOnlyList<IRewindable> items)
         {

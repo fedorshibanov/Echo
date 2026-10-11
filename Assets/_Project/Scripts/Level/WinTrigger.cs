@@ -6,14 +6,14 @@ namespace _Project.Scripts.Level
 {
     public class WinTrigger : MonoBehaviour
     {
-        private GameEndService _gameEndService;
+        private IGameEndService _gameEndService;
         
         [Inject]
-        private void Init(GameEndService gameEndService) => _gameEndService = gameEndService;
+        private void Init(IGameEndService gameEndService) => _gameEndService = gameEndService;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent<Player>(out var obj)) 
+            if (!other.CompareTag("Player") && !other.CompareTag("Echo")) 
                 return;
             
             _gameEndService.Win();

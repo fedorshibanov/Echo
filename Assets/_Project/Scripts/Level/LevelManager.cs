@@ -53,6 +53,7 @@ namespace _Project.Scripts.Level
                 yield return new WaitUntil(() => isDone);
 
                 _echoFactory.Spawn(frames, _spawnPoint);
+                yield return null;
                 _rewindService.RewindEntities(_spawnPoint.position);
                 _rewindService.RewindItems();
 

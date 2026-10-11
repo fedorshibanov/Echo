@@ -5,6 +5,7 @@ using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.Level;
 using _Project.Scripts.PlayerSystem;
 using _Project.Scripts.RecordSystem;
+using _Project.Scripts.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -17,16 +18,17 @@ namespace _Project.Scripts.VContanier
         [SerializeField] private CoroutineRunner _coroutineRunner;
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private LevelManager _levelManager;
+        [SerializeField] private WinTrigger _winTrigger;
         [SerializeField] private List<MonoBehaviour> _rewindItems;
+        [SerializeField] private LevelMenuController _levelMenuController;
         
         [Space] [Header("Prefabs")] [Space]
         [SerializeField] private EchoController _echoPrefab;
 
-
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<PlayerInputSystem>(Lifetime.Singleton);
             builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton); // in main lifetimescope
+            builder.Register<PlayerInputSystem>(Lifetime.Scoped);
             builder.Register<IRecordService, RecordService>(Lifetime.Scoped);
             builder.Register<IGameEndService, GameEndService>(Lifetime.Scoped);
             builder.Register<EchoFactory>(Lifetime.Scoped);
@@ -37,6 +39,8 @@ namespace _Project.Scripts.VContanier
             builder.RegisterComponent(_playerController);
             builder.RegisterComponent(_levelManager);
             builder.RegisterComponent(_echoPrefab);
+            builder.RegisterComponent(_winTrigger);
+            builder.RegisterComponent(_levelMenuController);
 
             var rewindItems = _rewindItems.OfType<IRewindable>().ToList();
 
