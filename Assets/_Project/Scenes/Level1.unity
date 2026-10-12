@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.VContanier.GameLifetimeScope
   parentReference:
-    TypeName: 
+    TypeName: _Project.Scripts.VContanier.ProjectLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
   _coroutineRunner: {fileID: 947310393}

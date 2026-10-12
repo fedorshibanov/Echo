@@ -10,7 +10,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace _Project.Scripts.VContanier
+namespace _Project.Scripts.VContainer
 {
     public class GameLifetimeScope : LifetimeScope
     {
@@ -27,7 +27,6 @@ namespace _Project.Scripts.VContanier
 
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton); // in main lifetimescope
             builder.Register<PlayerInputSystem>(Lifetime.Scoped);
             builder.Register<IRecordService, RecordService>(Lifetime.Scoped);
             builder.Register<IGameEndService, GameEndService>(Lifetime.Scoped);

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using _Project.Scripts.Level;
+using _Project.Scripts.VContainer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +21,13 @@ namespace _Project.Scripts
         public int CurrentLevelIndex { get; private set; }
         
         private LevelConfig[] _levelConfigs = Resources.LoadAll<LevelConfig>("Config/Levels");
+
+        private readonly ProjectLifetimeScope _lifetimeScope;
+        
+        public SceneChanger(ProjectLifetimeScope lifetimeScope)
+        {
+            _lifetimeScope = lifetimeScope;
+        }
         
         public async Task NextLevel()
         {
