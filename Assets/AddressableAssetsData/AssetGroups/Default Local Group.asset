@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 58bbe8d375f9a0b43ac83551f8f57765
   m_SerializeEntries:
+  - m_GUID: 650864568630d4e45bb3f094a590608e
+    m_Address: Assets/_Project/Scenes/Level1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99c9720ab356a0642a771bea13969a05
     m_Address: Assets/_Project/Scenes/SampleScene.unity
     m_ReadOnly: 0

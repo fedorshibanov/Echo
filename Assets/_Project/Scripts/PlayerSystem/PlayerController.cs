@@ -30,7 +30,6 @@ namespace _Project.Scripts.PlayerSystem
         private PlayerInputSystem _playerInput;
 
         private bool _isGrounded;
-        private bool _jumpHeld;
         private float _lastGroundedTime = float.NegativeInfinity;
         private float _lastJumpPressedTime = float.NegativeInfinity;
 
@@ -50,13 +49,11 @@ namespace _Project.Scripts.PlayerSystem
         {
             _playerInput.Player.Enable();
             _playerInput.Player.Jump.performed += OnJumpPerformed;
-            _playerInput.Player.Jump.canceled += OnJumpCanceled;
         }
 
         private void OnDisable()
         {
             _playerInput.Player.Jump.performed -= OnJumpPerformed;
-            _playerInput.Player.Jump.canceled -= OnJumpCanceled;
             _playerInput.Player.Disable();
         }
 
@@ -81,7 +78,6 @@ namespace _Project.Scripts.PlayerSystem
         {
             var input = _playerInput.Player.Move.ReadValue<Vector2>();
             var direction = new Vector3(input.x, 0f, input.y);
-
 
             var velocity = _rb.linearVelocity;
             var horizontal = new Vector3(velocity.x, 0f, velocity.z);
@@ -112,17 +108,13 @@ namespace _Project.Scripts.PlayerSystem
                 _lastGroundedTime = float.NegativeInfinity;
             }
 
-            var rising = _rb.linearVelocity.y > 0f;
-            if (!rising || !_jumpHeld)
+            if (_rb.linearVelocity.y < 0f && _gravityMultiplier > 1f)
                 _rb.AddForce(Physics.gravity * (_gravityMultiplier - 1f), ForceMode.Acceleration);
         }
 
         private void OnJumpPerformed(InputAction.CallbackContext context)
         {
-            _jumpHeld = true;
             _lastJumpPressedTime = Time.time;
         }
-
-        private void OnJumpCanceled(InputAction.CallbackContext context) => _jumpHeld = false;
     }
 }
