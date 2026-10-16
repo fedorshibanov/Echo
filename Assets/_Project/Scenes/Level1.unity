@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 162625524}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.07, y: 4.56, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -874,14 +874,10 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _coroutineRunner: {fileID: 947310393}
   _playerController: {fileID: 162625530}
   _levelManager: {fileID: 947310394}
   _winTrigger: {fileID: 1600797137}
-  _rewindItems:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _rewindItems: []
   _levelMenuController: {fileID: 66147727}
   _echoPrefab: {fileID: 7412844854948892862, guid: dd4476291e58ae34b8b8e71746633d74, type: 3}
 --- !u!4 &352225112
@@ -1816,7 +1812,6 @@ GameObject:
   m_Component:
   - component: {fileID: 947310392}
   - component: {fileID: 947310394}
-  - component: {fileID: 947310393}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -1839,18 +1834,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &947310393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 947310391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5a94c987b342d1afedc637b02a07fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.CoroutineRunner
 --- !u!114 &947310394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,7 +2008,7 @@ Transform:
   m_GameObject: {fileID: 1600797134}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.469, y: 1.018, z: 0}
+  m_LocalPosition: {x: 30.59, y: 1.018, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -19,5 +19,5 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: 1
-  echoMax: 3
+  echoMax: 10
   time: 5

@@ -26,13 +26,11 @@ namespace _Project.Scripts.RecordSystem
         private bool _jumpPressed;
         
         private readonly PlayerInputSystem _playerInput;
-        private readonly CoroutineRunner _coroutineRunner;
         
         [Inject]
-        public RecordService(PlayerInputSystem playerInput, CoroutineRunner coroutineRunner)
+        public RecordService(PlayerInputSystem playerInput)
         {
             _playerInput = playerInput;
-            _coroutineRunner = coroutineRunner;
             
             _playerInput.Player.Jump.performed += OnJump;
         }
@@ -50,25 +48,32 @@ namespace _Project.Scripts.RecordSystem
                 return false;
             }
             
-            _coroutineRunner.Run(TakeFrames(inputFrames, time, onComplete));
+            _ = TakeFramesAsync(inputFrames, time, onComplete);
             return true;
         }
 
-        private IEnumerator TakeFrames(List<InputFrame> inputFrames, float time, Action onComplete)
+        private async Awaitable TakeFramesAsync(List<InputFrame> inputFrames, float time, Action onComplete = null)
         {
             _isRecording = true;
-            
-            for (float timer = 0; time > timer; timer += Time.fixedDeltaTime)
+
+            try
             {
-                var move = _playerInput.Player.Move.ReadValue<Vector2>();
-                inputFrames.Add(new InputFrame(move, _jumpPressed));
-                _jumpPressed = false;
-                yield return new WaitForFixedUpdate();
+                for (float timer = 0; timer < time; timer += Time.fixedDeltaTime)
+                {
+                    var move = _playerInput.Player.Move.ReadValue<Vector2>();
+                    inputFrames.Add(new InputFrame(move, _jumpPressed));
+                    _jumpPressed = false;
+
+                    await Awaitable.FixedUpdateAsync();
+                }
+
+                _isRecording = false;
+                onComplete?.Invoke();
             }
-            
-            Debug.Log("Record Done");
-            _isRecording = false;
-            onComplete?.Invoke();
+            finally
+            {
+                _isRecording = false;
+            }
         }
 
         private void OnJump(InputAction.CallbackContext context) => _jumpPressed = true;

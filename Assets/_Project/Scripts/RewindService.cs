@@ -25,6 +25,7 @@ namespace _Project.Scripts
             
             foreach (var echo in _echoService.GetEchos())
             {
+                Debug.Log(echo.ToString());
                 echo.transform.position = spawnPoint;
                 echo.MoveEcho();
             }
