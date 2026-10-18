@@ -1,3 +1,4 @@
+using _Project.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -11,12 +12,18 @@ namespace _Project.Scripts.UI.MainMenu
         [SerializeField] private Button _aboutMeButton;
         [SerializeField] private Button _quitButton;
 
+        private int _currentLevelId;
+        
         private ISceneChanger _sceneChanger;
-        // private ISaveService _saveService;
+        private ISaveService _saveService;
         
         [Inject]
-        private void Init(ISceneChanger sceneChanger) => _sceneChanger = sceneChanger;
-        
+        private void Init(ISceneChanger sceneChanger, ISaveService saveService)
+        {
+            _sceneChanger = sceneChanger;
+            _saveService = saveService;
+        }
+
         private void Start()
         {
             InitButtons();
@@ -24,16 +31,15 @@ namespace _Project.Scripts.UI.MainMenu
 
         private void InitButtons()
         {
-            
             _newGameButton.onClick.AddListener(NewGame);
             _quitButton.onClick.AddListener(Quit);
             _aboutMeButton.onClick.AddListener(AboutMe);
 
-            // if (_saveservice.CurrentLevel == 0)
-            // {
-            //    _continueButton.interactable = false;
-            //     return;
-            // }
+            if (_sceneChanger.CurrentLevelId == 0)
+            {
+               _continueButton.interactable = false;
+                return;
+            }
             
             _continueButton.onClick.AddListener(Continue);
         }
@@ -45,7 +51,7 @@ namespace _Project.Scripts.UI.MainMenu
         
         private void Continue()
         {
-            // _sceneChanger.LoadLevel(_saveService.CurrentLevel);
+            _sceneChanger.LoadLevel(_sceneChanger.CurrentLevelId);
         }
         
         private void AboutMe()

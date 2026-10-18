@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.VContanier.GameLifetimeScope
   parentReference:
-    TypeName: 
+    TypeName: _Project.Scripts.VContainer.Scopes.ProjectLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
   _playerController: {fileID: 162625530}
@@ -2008,7 +2008,7 @@ Transform:
   m_GameObject: {fileID: 1600797134}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.59, y: 1.018, z: 0}
+  m_LocalPosition: {x: 8.51, y: 1.018, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

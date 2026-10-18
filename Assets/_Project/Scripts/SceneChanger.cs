@@ -1,15 +1,18 @@
 using System.Threading.Tasks;
 using _Project.Scripts.Level;
+using _Project.Scripts.SaveSystem;
 using _Project.Scripts.VContainer;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts
 {
     public interface ISceneChanger
     {
-        int CurrentLevelIndex { get; }
-        
+        int CurrentLevelId { get; }
+
+        void LoadLevelId(int id);
         Task NextLevel();
         Task LoadLevel(int levelIndex);
         Task RestartLevel();
@@ -18,25 +21,35 @@ namespace _Project.Scripts
     
     public class SceneChanger : ISceneChanger
     {
-        public int CurrentLevelIndex { get; private set; }
+        public int CurrentLevelId { get; private set; }
         
         private LevelConfig[] _levelConfigs = Resources.LoadAll<LevelConfig>("Config/Levels");
+
+        private bool isLoaded = false;
         
+        public void LoadLevelId(int id)
+        {
+            if (isLoaded) return;
+
+            CurrentLevelId = id;
+            isLoaded = true;
+        }
+
         public async Task NextLevel()
         {
-            CurrentLevelIndex++;
-            await LoadLevel(_levelConfigs[CurrentLevelIndex]);
+            CurrentLevelId++;
+            await LoadLevel(_levelConfigs[CurrentLevelId]);
         }
 
         public async Task LoadLevel(int levelIndex)
         {
-            CurrentLevelIndex = levelIndex;
+            CurrentLevelId = levelIndex;
             await LoadLevel(_levelConfigs[levelIndex]);
         }
 
         public async Task RestartLevel()
         {
-            await LoadLevel(_levelConfigs[CurrentLevelIndex]);
+            await LoadLevel(_levelConfigs[CurrentLevelId]);
         }
 
         public void LoadMainMenu()
@@ -46,7 +59,7 @@ namespace _Project.Scripts
 
         private async Task LoadLevel(LevelConfig config)
         {
-            await config.scene.LoadSceneAsync(LoadSceneMode.Single).Task;
+            await Addressables.LoadSceneAsync(config.scene, LoadSceneMode.Single).Task;
         }
     }
 }

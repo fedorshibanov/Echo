@@ -54,8 +54,7 @@ namespace _Project.Scripts.Level
 
                 _echoFactory.Spawn(frames, _spawnPoint);
                 yield return null;
-                _rewindService.RewindEntities(_spawnPoint.position);
-                _rewindService.RewindItems();
+                _rewindService.RewindAll(_spawnPoint.position);
 
                 yield return new WaitForFixedUpdate();
             }          

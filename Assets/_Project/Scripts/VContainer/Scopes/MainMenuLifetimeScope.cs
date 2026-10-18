@@ -3,7 +3,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace _Project.Scripts.VContainer
+namespace _Project.Scripts.VContainer.Scopes
 {
     public class MainMenuLifetimeScope : LifetimeScope
     {

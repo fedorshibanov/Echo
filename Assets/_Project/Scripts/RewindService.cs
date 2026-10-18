@@ -18,6 +18,12 @@ namespace _Project.Scripts
             _playerController = playerController;
             _items = items;
         }
+
+        public void RewindAll(Vector3 spawnPoint)
+        {
+            RewindEntities(spawnPoint);
+            RewindItems();
+        }
         
         public void RewindEntities(Vector3 spawnPoint)
         {

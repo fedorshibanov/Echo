@@ -10,7 +10,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace _Project.Scripts.VContainer
+namespace _Project.Scripts.VContainer.Scopes
 {
     public class GameLifetimeScope : LifetimeScope
     {
@@ -32,8 +32,6 @@ namespace _Project.Scripts.VContainer
             builder.Register<EchoFactory>(Lifetime.Scoped);
             builder.Register<EchoService>(Lifetime.Scoped);
             builder.Register<RewindService>(Lifetime.Scoped);
-            
-            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton); //temp
 
             builder.RegisterComponent(_playerController);
             builder.RegisterComponent(_levelManager);
@@ -42,8 +40,9 @@ namespace _Project.Scripts.VContainer
             builder.RegisterComponent(_levelMenuController);
 
             var rewindItems = _rewindItems.OfType<IRewindable>().ToList();
-
             builder.RegisterInstance<IReadOnlyList<IRewindable>>(rewindItems);
+            
+            builder.RegisterEntryPoint<GameEntryPoint>();
         }
     }
 }
