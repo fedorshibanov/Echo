@@ -37,12 +37,16 @@ namespace _Project.Scripts
 
         public async Task NextLevel()
         {
+            if (_levelConfigs[CurrentLevelId + 1] == null) return;
+
             CurrentLevelId++;
             await LoadLevel(_levelConfigs[CurrentLevelId]);
         }
 
         public async Task LoadLevel(int levelIndex)
         {
+            if (_levelConfigs[levelIndex] == null) return;
+            
             CurrentLevelId = levelIndex;
             await LoadLevel(_levelConfigs[levelIndex]);
         }

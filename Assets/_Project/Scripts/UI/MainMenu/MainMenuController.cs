@@ -47,6 +47,7 @@ namespace _Project.Scripts.UI.MainMenu
         private void NewGame()
         {
             _sceneChanger.LoadLevel(0);
+            _saveService.DeleteAllSaves();
         }
         
         private void Continue()

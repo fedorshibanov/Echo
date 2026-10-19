@@ -6,7 +6,7 @@ namespace _Project.Scripts.VContainer.Scopes
 {
     public class ProjectLifetimeScope : LifetimeScope
     {
-        private ProjectLifetimeScope _instance;
+        private static ProjectLifetimeScope _instance;
         
         protected override void Awake()
         {

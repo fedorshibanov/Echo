@@ -54,5 +54,11 @@ namespace _Project.Scripts.SaveSystem
                 return null;
             }
         }
+
+        public void DeleteAllSaves()
+        {
+            var files = Directory.GetFiles(Application.persistentDataPath, "save*.json*");
+            foreach (var f in files) File.Delete(f);
+        }
     }
 }

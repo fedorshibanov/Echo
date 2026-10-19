@@ -5,5 +5,6 @@ namespace _Project.Scripts.SaveSystem
         void Save();
         void Save(SaveData saveData);
         SaveData Load();
+        void DeleteAllSaves();
     }
 }
