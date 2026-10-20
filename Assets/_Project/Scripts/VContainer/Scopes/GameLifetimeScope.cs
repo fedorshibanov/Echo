@@ -5,6 +5,7 @@ using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.Level;
 using _Project.Scripts.PlayerSystem;
 using _Project.Scripts.RecordSystem;
+using _Project.Scripts.RewindSystem;
 using _Project.Scripts.UI;
 using UnityEngine;
 using VContainer;
@@ -16,13 +17,14 @@ namespace _Project.Scripts.VContainer.Scopes
     {
         [Space] [Header("MonoBehavior components")] [Space]
         [SerializeField] private PlayerController _playerController;
+        [SerializeField] private Player _player;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private WinTrigger _winTrigger;
         [SerializeField] private List<MonoBehaviour> _rewindItems;
         [SerializeField] private LevelMenuController _levelMenuController;
         
         [Space] [Header("Prefabs")] [Space]
-        [SerializeField] private EchoController _echoPrefab;
+        [SerializeField] private Echo _echoPrefab;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -34,6 +36,7 @@ namespace _Project.Scripts.VContainer.Scopes
             builder.Register<RewindService>(Lifetime.Scoped);
 
             builder.RegisterComponent(_playerController);
+            builder.RegisterComponent(_player);
             builder.RegisterComponent(_levelManager);
             builder.RegisterComponent(_echoPrefab);
             builder.RegisterComponent(_winTrigger);

@@ -1,3 +1,4 @@
+using _Project.Scripts.RewindSystem;
 using UnityEngine;
 
 namespace _Project.Scripts.InteractionObjects
@@ -17,7 +18,7 @@ namespace _Project.Scripts.InteractionObjects
         {
             _startPoint = transform.position; // лучше переделать под entry point // на потом
         }
-        
+
         public void Rewind()
         {
             transform.position = _startPoint;

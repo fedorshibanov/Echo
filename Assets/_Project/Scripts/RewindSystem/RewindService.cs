@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Project.Scripts.EchoSystem;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.PlayerSystem;
+using _Project.Scripts.RewindSystem;
 using UnityEngine;
 
 namespace _Project.Scripts
@@ -9,13 +10,13 @@ namespace _Project.Scripts
     public class RewindService
     {
         private readonly EchoService _echoService;
-        private readonly PlayerController _playerController;
+        private readonly Player _player;
         private readonly IReadOnlyList<IRewindable> _items;
 
-        public RewindService(EchoService echoService, PlayerController playerController, IReadOnlyList<IRewindable> items)
+        public RewindService(EchoService echoService, Player player, IReadOnlyList<IRewindable> items)
         {
             _echoService = echoService;
-            _playerController = playerController;
+            _player = player;
             _items = items;
         }
 
@@ -27,13 +28,13 @@ namespace _Project.Scripts
         
         public void RewindEntities(Vector3 spawnPoint)
         {
-            _playerController.transform.position = spawnPoint;
+            _player.transform.position = spawnPoint;
             
             foreach (var echo in _echoService.GetEchos())
             {
                 Debug.Log(echo.ToString());
                 echo.transform.position = spawnPoint;
-                echo.MoveEcho();
+                echo.EchoController.MoveEcho();
             }
         }
 

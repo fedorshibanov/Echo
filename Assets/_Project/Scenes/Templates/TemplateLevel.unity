@@ -875,11 +875,12 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _playerController: {fileID: 162625530}
+  _player: {fileID: 162625531}
   _levelManager: {fileID: 947310394}
   _winTrigger: {fileID: 1600797137}
   _rewindItems: []
   _levelMenuController: {fileID: 66147727}
-  _echoPrefab: {fileID: 7412844854948892862, guid: dd4476291e58ae34b8b8e71746633d74, type: 3}
+  _echoPrefab: {fileID: 832575662626211076, guid: dd4476291e58ae34b8b8e71746633d74, type: 3}
 --- !u!4 &352225112
 Transform:
   m_ObjectHideFlags: 0

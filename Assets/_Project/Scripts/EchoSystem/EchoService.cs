@@ -4,14 +4,14 @@ namespace _Project.Scripts.EchoSystem
 {
     public class EchoService
     {
-        private List<EchoController> _echoService = new();
+        private List<Echo> _echoService = new();
         
-        public void AddEcho(EchoController echo)
+        public void AddEcho(Echo echo)
         {
             _echoService.Add(echo);
         }
 
-        public List<EchoController> GetEchos()
+        public List<Echo> GetEchos()
         {
             return _echoService;
         }

@@ -1,9 +1,10 @@
 using System;
+using _Project.Scripts.RewindSystem;
 using UnityEngine;
 
 namespace _Project.Scripts.InteractionObjects
 {
-    public class PressurePlate : MonoBehaviour, IRewindable
+    public class PressurePlate : MonoBehaviour
     {
         [SerializeField] private float _requiredMass;
         
@@ -42,11 +43,6 @@ namespace _Project.Scripts.InteractionObjects
                 _isActivated = false;
                 OnDeactivated?.Invoke();
             }
-        }
-
-        public void Rewind()
-        {
-            
         }
     }
 }

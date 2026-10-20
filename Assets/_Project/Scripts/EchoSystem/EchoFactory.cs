@@ -8,23 +8,23 @@ namespace _Project.Scripts.EchoSystem
 {
     public class EchoFactory
     {
-        private readonly EchoController _echoPrefab;
+        private readonly Echo _echoPrefab;
         private readonly IObjectResolver _objectResolver;
         private readonly EchoService _echoService;
 
-        public EchoFactory(EchoController echoPrefab, IObjectResolver objectResolver, EchoService echoService)
+        public EchoFactory(Echo echoPrefab, IObjectResolver objectResolver, EchoService echoService)
         {
             _echoPrefab = echoPrefab;
             _objectResolver = objectResolver;
             _echoService = echoService;
         }
         
-        public EchoController Spawn(List<InputFrame> frames, Transform position)
+        public Echo Spawn(List<InputFrame> frames, Transform position)
         {
             var echo = _objectResolver.Instantiate(_echoPrefab);
             
             echo.transform.position = position.position;
-            echo.SetFrames(frames);
+            echo.EchoController.SetFrames(frames);
             
             _echoService.AddEcho(echo);
             

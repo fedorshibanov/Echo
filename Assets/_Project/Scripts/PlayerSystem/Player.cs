@@ -1,5 +1,7 @@
 using _Project.Scripts.InteractionObjects;
+using _Project.Scripts.RewindSystem;
 using UnityEngine;
+using VContainer;
 
 namespace _Project.Scripts.PlayerSystem
 {
@@ -7,5 +9,13 @@ namespace _Project.Scripts.PlayerSystem
     {
         [SerializeField] private float _mass;
         public float Mass => _mass;
+        
+        public PlayerController PlayerController { get; private set; }
+
+        [Inject]
+        private void Init(PlayerController playerController)
+        {
+            PlayerController = playerController;
+        }
     }
 }
