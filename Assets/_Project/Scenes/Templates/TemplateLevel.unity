@@ -487,6 +487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Player.Player
   _mass: 2
+  _controller: {fileID: 162625530}
+  _rb: {fileID: 162625528}
 --- !u!1 &183596848
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +876,6 @@ MonoBehaviour:
     TypeName: _Project.Scripts.VContainer.Scopes.ProjectLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
-  _playerController: {fileID: 162625530}
   _player: {fileID: 162625531}
   _levelManager: {fileID: 947310394}
   _winTrigger: {fileID: 1600797137}

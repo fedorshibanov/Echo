@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using _Project.Scripts.Animations;
 using _Project.Scripts.EchoSystem;
 using _Project.Scripts.PlayerSystem;
-using _Project.Scripts.RewindSystem;
+using DG.Tweening;
 using UnityEngine;
 
-namespace _Project.Scripts
+namespace _Project.Scripts.RewindSystem
 {
     public class RewindService
     {
@@ -19,30 +22,46 @@ namespace _Project.Scripts
             _items = items;
         }
 
-        public void RewindAll(Vector3 spawnPoint)
+        public Task RewindAll(Vector3 spawnPoint) => Play(spawnPoint, true, true);
+        public Task RewindEntities(Vector3 spawnPoint) => Play(spawnPoint, true, false);
+        public Task RewindItems() => Play(Vector3.zero, false, true);
+
+        private async Task Play(Vector3 spawnPoint, bool entities, bool items)
         {
-            RewindEntities(spawnPoint);
-            RewindItems();
-        }
-        
-        public void RewindEntities(Vector3 spawnPoint)
-        {
-            _player.transform.position = spawnPoint;
-            
-            foreach (var echo in _echoService.GetEchos())
+            SetControl(false);
+            var seq = DOTween.Sequence();
+
+            if (entities)
             {
-                Debug.Log(echo.ToString());
-                echo.transform.position = spawnPoint;
-                echo.EchoController.MoveEcho();
+                var targets = _echoService.GetEchos().Select(e => e.transform).Prepend(_player.transform).ToList();
+                seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, false));
             }
+            if (items)
+            {
+                var targets = _items.Select(i => ((Component)i).transform).ToList();
+                seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, onHidden: i => _items[i].Rewind()));
+            }
+
+            await seq.AsyncWaitForCompletion();
+
+            if (entities)
+                foreach (var echo in _echoService.GetEchos())
+                    echo.Controller.MoveEcho();
+
+            SetControl(true);
         }
 
-        public void RewindItems()
+        private void SetControl(bool on)
         {
-            foreach (var item in _items)
-            {
-                item.Rewind();
-            }
+            Toggle(_player.Rigidbody, _player.Controller, on);
+            foreach (var echo in _echoService.GetEchos())
+                Toggle(echo.Rigidbody, echo.Controller, on);
+        }
+
+        private static void Toggle(Rigidbody rb, Behaviour controller, bool on)
+        {
+            rb.isKinematic = !on;
+            controller.enabled = on;
         }
     }
 }

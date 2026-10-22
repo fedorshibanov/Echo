@@ -1,8 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Project.Scripts.EchoSystem;
 using _Project.Scripts.RecordSystem;
+using _Project.Scripts.RewindSystem;
 using UnityEngine;
 using VContainer;
 
@@ -19,9 +19,8 @@ namespace _Project.Scripts.Level
         private RewindService _rewindService;
         private IGameEndService _gameEndService;
 
-        
         [Inject]
-        private void Init(IRecordService recordService, EchoFactory echoFactory, 
+        private void Init(IRecordService recordService, EchoFactory echoFactory,
             RewindService rewindService, IGameEndService gameEndService)
         {
             _recordService = recordService;
@@ -30,35 +29,27 @@ namespace _Project.Scripts.Level
             _gameEndService = gameEndService;
         }
 
-        private void Start()
-        {
-            StartLevel();
-        }
+        private async void Start() => await StartGameCycle();
 
-        private void StartLevel()
-        {
-            StartCoroutine(StartGameCycle());
-        }
-
-        private IEnumerator StartGameCycle()
+        private async Task StartGameCycle()
         {
             for (var i = 0; i < _levelConfig.echoMax; i++)
             {
                 var frames = new List<InputFrame>();
-                var isDone = false;
-                
-                if(!_recordService.TryStartRecord(frames, _levelConfig.time, () => isDone = true))
-                    yield break;
-                
-                yield return new WaitUntil(() => isDone);
+                var done = new TaskCompletionSource<bool>();
+
+                if (!_recordService.TryStartRecord(frames, _levelConfig.time, () => done.TrySetResult(true)))
+                    return;
+
+                await done.Task;
+                if (this == null) return;
 
                 _echoFactory.Spawn(frames, _spawnPoint);
-                yield return null;
-                _rewindService.RewindAll(_spawnPoint.position);
+                await Task.Yield();
+                await _rewindService.RewindAll(_spawnPoint.position);
+                if (this == null) return;
+            }
 
-                yield return new WaitForFixedUpdate();
-            }          
-            
             _gameEndService.Lose();
         }
     }

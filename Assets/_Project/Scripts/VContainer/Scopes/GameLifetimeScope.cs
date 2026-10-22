@@ -16,7 +16,6 @@ namespace _Project.Scripts.VContainer.Scopes
     public class GameLifetimeScope : LifetimeScope
     {
         [Space] [Header("MonoBehavior components")] [Space]
-        [SerializeField] private PlayerController _playerController;
         [SerializeField] private Player _player;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private WinTrigger _winTrigger;
@@ -35,10 +34,10 @@ namespace _Project.Scripts.VContainer.Scopes
             builder.Register<EchoService>(Lifetime.Scoped);
             builder.Register<RewindService>(Lifetime.Scoped);
 
-            builder.RegisterComponent(_playerController);
             builder.RegisterComponent(_player);
-            builder.RegisterComponent(_levelManager);
+            builder.RegisterComponent(_player.Controller);
             builder.RegisterComponent(_echoPrefab);
+            builder.RegisterComponent(_levelManager);
             builder.RegisterComponent(_winTrigger);
             builder.RegisterComponent(_levelMenuController);
 

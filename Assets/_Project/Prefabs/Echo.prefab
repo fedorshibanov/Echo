@@ -213,6 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Echo.Echo
   _mass: 2
+  _controller: {fileID: 7412844854948892862}
+  _rb: {fileID: 7128931000161800148}
 --- !u!114 &7412844854948892862
 MonoBehaviour:
   m_ObjectHideFlags: 0

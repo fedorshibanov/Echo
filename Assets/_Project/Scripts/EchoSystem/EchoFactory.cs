@@ -24,7 +24,7 @@ namespace _Project.Scripts.EchoSystem
             var echo = _objectResolver.Instantiate(_echoPrefab);
             
             echo.transform.position = position.position;
-            echo.EchoController.SetFrames(frames);
+            echo.Controller.SetFrames(frames);
             
             _echoService.AddEcho(echo);
             

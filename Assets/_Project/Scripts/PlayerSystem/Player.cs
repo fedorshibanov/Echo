@@ -1,6 +1,8 @@
+using _Project.Scripts.EchoSystem;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RewindSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace _Project.Scripts.PlayerSystem
@@ -10,12 +12,10 @@ namespace _Project.Scripts.PlayerSystem
         [SerializeField] private float _mass;
         public float Mass => _mass;
         
-        public PlayerController PlayerController { get; private set; }
-
-        [Inject]
-        private void Init(PlayerController playerController)
-        {
-            PlayerController = playerController;
-        }
+        [SerializeField] private PlayerController _controller;
+        public PlayerController Controller => _controller;
+        
+        [SerializeField] private Rigidbody _rb;
+        public Rigidbody Rigidbody => _rb;
     }
 }

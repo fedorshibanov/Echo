@@ -14,10 +14,7 @@ namespace _Project.Scripts.InteractionObjects
         
         private Vector3 _startPoint;
         
-        private void Start()
-        {
-            _startPoint = transform.position; // лучше переделать под entry point // на потом
-        }
+        private void Start() => _startPoint = transform.position;
 
         public void Rewind()
         {
