@@ -11,8 +11,7 @@ namespace _Project.Scripts.Level
     public class LevelManager : MonoBehaviour
     {
         [SerializeField] private LevelConfig _levelConfig;
-        [Space]
-        [SerializeField] private Transform _spawnPoint;
+        [Space] [SerializeField] private Transform _spawnPoint;
 
         private IRecordService _recordService;
         private EchoFactory _echoFactory;
@@ -44,10 +43,11 @@ namespace _Project.Scripts.Level
                 await done.Task;
                 if (this == null) return;
 
-                _echoFactory.Spawn(frames, _spawnPoint);
-                await Task.Yield();
                 await _rewindService.RewindAll(_spawnPoint.position);
                 if (this == null) return;
+
+                var echo = _echoFactory.Spawn(frames, _spawnPoint);
+                echo.Controller.MoveEcho();
             }
 
             _gameEndService.Lose();
