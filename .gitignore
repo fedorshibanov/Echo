@@ -11,6 +11,9 @@
 *.so
 *.dylib
 *.dll
+# Keep the DOTween runtime and editor dependencies in source control.
+!/Assets/Plugins/Demigiant/DOTween/DOTween.dll
+!/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll
 
 # Static libraries
 *.a
@@ -173,3 +176,8 @@ x86/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Unity package dependencies must be shared across machines.
+!/Packages/
+!/Packages/manifest.json
+!/Packages/packages-lock.json
