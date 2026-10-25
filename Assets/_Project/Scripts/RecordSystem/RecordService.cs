@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Level;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
@@ -22,14 +23,16 @@ namespace _Project.Scripts.RecordSystem
     public class RecordService : IRecordService, IDisposable
     {
         private readonly PlayerInputSystem _playerInput;
+        private readonly GameStateService _gameStateService;
 
         private bool _isRecording;
         private bool _jumpPressed;
 
         [Inject]
-        public RecordService(PlayerInputSystem playerInput)
+        public RecordService(PlayerInputSystem playerInput, GameStateService gameStateService)
         {
             _playerInput = playerInput;
+            _gameStateService = gameStateService;
             _playerInput.Player.Jump.performed += OnJump;
         }
 
@@ -93,7 +96,7 @@ namespace _Project.Scripts.RecordSystem
         private void OnJump(InputAction.CallbackContext context)
         {
             // Нажатия вне записи игнорируем, иначе старое нажатие попадёт в первый кадр
-            if (_isRecording)
+            if (_isRecording && _gameStateService.CurrentState == GameState.Ingame)
                 _jumpPressed = true;
         }
     }

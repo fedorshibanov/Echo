@@ -1,4 +1,5 @@
 using _Project.Scripts.SaveSystem;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -12,6 +13,7 @@ namespace _Project.Scripts.VContainer.Scopes
         {
             if (_instance != null && _instance != this)
             {
+                gameObject.SetActive(false);
                 Destroy(gameObject);
                 return;
             }

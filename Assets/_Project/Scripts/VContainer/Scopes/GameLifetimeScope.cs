@@ -28,6 +28,7 @@ namespace _Project.Scripts.VContainer.Scopes
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<PlayerInputSystem>(Lifetime.Scoped);
+            builder.Register<GameStateService>(Lifetime.Scoped);
             builder.Register<IRecordService, RecordService>(Lifetime.Scoped);
             builder.Register<IGameEndService, GameEndService>(Lifetime.Scoped);
             builder.Register<EchoFactory>(Lifetime.Scoped);

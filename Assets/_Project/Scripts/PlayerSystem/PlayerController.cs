@@ -1,3 +1,4 @@
+using _Project.Scripts.Level;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
@@ -28,13 +29,18 @@ namespace _Project.Scripts.PlayerSystem
         [SerializeField] private Rigidbody _rb;
 
         private PlayerInputSystem _playerInput;
+        private GameStateService _gameStateService;
 
         private bool _isGrounded;
         private float _lastGroundedTime = float.NegativeInfinity;
         private float _lastJumpPressedTime = float.NegativeInfinity;
 
         [Inject]
-        private void Init(PlayerInputSystem playerInput) => _playerInput = playerInput;
+        private void Init(PlayerInputSystem playerInput, GameStateService gameStateService)
+        {
+            _playerInput = playerInput;
+            _gameStateService = gameStateService;
+        }
 
         private void Awake()
         {
@@ -114,6 +120,8 @@ namespace _Project.Scripts.PlayerSystem
 
         private void OnJumpPerformed(InputAction.CallbackContext context)
         {
+            if (_gameStateService.CurrentState == GameState.Pause) return;
+
             _lastJumpPressedTime = Time.time;
         }
     }
