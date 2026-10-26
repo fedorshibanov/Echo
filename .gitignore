@@ -173,3 +173,9 @@ x86/
 
 # Built Visual Studio Code Extensions
 *.vsix
+# Unity dependencies shared across machines.
+!/Packages/
+!/Packages/manifest.json
+!/Packages/packages-lock.json
+!/Assets/Plugins/Demigiant/DOTween/DOTween.dll
+!/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll

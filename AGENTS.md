@@ -4,6 +4,7 @@
 - Portfolio project focused on clean architecture and professional code quality.
 - Prioritize maintainability, readability, and simplicity.
 - Avoid overengineering.
+— Don’t write a lot of tests unless I ask you to. Your task is to help me with the code.
 
 ## Architecture
 - Follow SOLID principles pragmatically.
