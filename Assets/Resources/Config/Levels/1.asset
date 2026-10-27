@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.LevelData
   scene:
-    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
+    m_AssetGUID: 650864568630d4e45bb3f094a590608e
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

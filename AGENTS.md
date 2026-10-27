@@ -5,6 +5,7 @@
 - Prioritize maintainability, readability, and simplicity.
 - Avoid overengineering.
 — Don’t write a lot of tests unless I ask you to. Your task is to help me with the code.
+- Always create git branch for your work. You can do commits in your branch, but newer merge unless I ask you to.
 
 ## Architecture
 - Follow SOLID principles pragmatically.

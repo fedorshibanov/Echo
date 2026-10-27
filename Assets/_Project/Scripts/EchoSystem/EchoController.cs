@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Project.Scripts.RecordSystem;
 using UnityEngine;
 
@@ -31,6 +32,9 @@ namespace _Project.Scripts.EchoSystem
         private List<InputFrame> _inputFrames;
         private int _frameIndex;
         private bool _isPlaying;
+        private TaskCompletionSource<bool> _playbackCompletion;
+
+        public Task PlaybackCompletion => _playbackCompletion?.Task ?? Task.CompletedTask;
 
         private Vector2 _moveInput;
         private bool _isGrounded;
@@ -60,6 +64,7 @@ namespace _Project.Scripts.EchoSystem
             if (_inputFrames == null || _inputFrames.Count == 0) return;
 
             _frameIndex = 0;
+            _playbackCompletion = new TaskCompletionSource<bool>();
             _isPlaying = true;
         }
 
@@ -102,6 +107,7 @@ namespace _Project.Scripts.EchoSystem
         {
             _isPlaying = false;
             _moveInput = Vector2.zero;
+            _playbackCompletion?.TrySetResult(true);
         }
 
         private void CheckGround()
