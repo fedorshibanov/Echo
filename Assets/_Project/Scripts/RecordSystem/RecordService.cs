@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Level;
+using _Project.Scripts.PlayerSystem;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using VContainer;
 
 namespace _Project.Scripts.RecordSystem
 {
@@ -22,82 +20,54 @@ namespace _Project.Scripts.RecordSystem
 
     public class RecordService : IRecordService, IDisposable
     {
-        private readonly PlayerInputSystem _playerInput;
-        private readonly GameStateService _gameStateService;
+        private readonly PlayerController _playerController;
+        private List<InputFrame> _inputFrames;
+        private Action _onComplete;
+        private int _remainingFrames;
 
-        private bool _isRecording;
-        private bool _jumpPressed;
-
-        [Inject]
-        public RecordService(PlayerInputSystem playerInput, GameStateService gameStateService)
+        public RecordService(PlayerController playerController)
         {
-            _playerInput = playerInput;
-            _gameStateService = gameStateService;
-            _playerInput.Player.Jump.performed += OnJump;
+            _playerController = playerController;
+            _playerController.InputCaptured += OnInputCaptured;
         }
 
         public void Dispose()
         {
-            _playerInput.Player.Jump.performed -= OnJump;
+            _playerController.InputCaptured -= OnInputCaptured;
+            _inputFrames = null;
+            _onComplete = null;
         }
 
         public bool TryStartRecord(List<InputFrame> inputFrames, float time, Action onComplete)
         {
-            if (_isRecording)
+            if (_inputFrames != null)
             {
                 Debug.LogWarning("Recording is already running");
                 return false;
             }
 
-            // Флаг ставим сразу, чтобы два вызова подряд не запустили две записи
-            _isRecording = true;
-            _jumpPressed = false;
-
-            _ = TakeFramesAsync(inputFrames, time, onComplete);
+            _inputFrames = inputFrames ?? throw new ArgumentNullException(nameof(inputFrames));
+            _remainingFrames = Mathf.Max(1, Mathf.RoundToInt(time / Time.fixedDeltaTime));
+            _onComplete = onComplete;
             return true;
         }
 
-        private async Awaitable TakeFramesAsync(List<InputFrame> inputFrames, float time, Action onComplete)
+        private void OnInputCaptured(InputFrame frame)
         {
-            // Количество кадров считаем целым числом, без накопления float-ошибки
-            var totalFrames = Mathf.Max(1, Mathf.RoundToInt(time / Time.fixedDeltaTime));
-            var completed = false;
+            if (_inputFrames == null) return;
 
-            try
+            if (_remainingFrames > 0)
             {
-                var token = Application.exitCancellationToken;
-
-                // Сначала дожидаемся физического тика, чтобы первый кадр
-                // записывался в тике, а не в произвольный момент Update
-                await Awaitable.FixedUpdateAsync(token);
-
-                for (var i = 0; i < totalFrames; i++)
-                {
-                    var move = _playerInput.Player.Move.ReadValue<Vector2>();
-                    inputFrames.Add(new InputFrame(move, _jumpPressed));
-                    _jumpPressed = false;
-
-                    if (i < totalFrames - 1)
-                        await Awaitable.FixedUpdateAsync(token);
-                }
-
-                completed = true;
-            }
-            finally
-            {
-                _isRecording = false;
-                _jumpPressed = false;
+                _inputFrames.Add(frame);
+                _remainingFrames--;
+                return;
             }
 
-            if (completed)
-                onComplete?.Invoke();
-        }
-
-        private void OnJump(InputAction.CallbackContext context)
-        {
-            // Нажатия вне записи игнорируем, иначе старое нажатие попадёт в первый кадр
-            if (_isRecording && _gameStateService.CurrentState == GameState.Ingame)
-                _jumpPressed = true;
+            // Complete on the next tick: the last recorded input has now passed through physics.
+            var onComplete = _onComplete;
+            _inputFrames = null;
+            _onComplete = null;
+            onComplete?.Invoke();
         }
     }
 }

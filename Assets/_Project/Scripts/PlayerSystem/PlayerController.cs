@@ -1,4 +1,6 @@
+using System;
 using _Project.Scripts.Level;
+using _Project.Scripts.RecordSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
@@ -31,9 +33,26 @@ namespace _Project.Scripts.PlayerSystem
         private PlayerInputSystem _playerInput;
         private GameStateService _gameStateService;
 
-        private bool _isGrounded;
-        private float _lastGroundedTime = float.NegativeInfinity;
-        private float _lastJumpPressedTime = float.NegativeInfinity;
+        private CharacterMotor _motor;
+        private bool _jumpPressed;
+
+        // Raised before simulation so recording can finish after the previous physics step.
+        public event Action<InputFrame> InputCaptured;
+
+        public CharacterMovementSettings MovementSettings => new()
+        {
+            MoveSpeed = _moveSpeed,
+            Acceleration = _acceleration,
+            AirControl = _airControl,
+            RotationSpeed = _rotationSpeed,
+            JumpHeight = _jumpHeight,
+            GravityMultiplier = _gravityMultiplier,
+            CoyoteTime = _coyoteTime,
+            JumpBufferTime = _jumpBufferTime,
+            GroundLayers = _groundLayers,
+            GroundCheckRadius = _groundCheckRadius,
+            GroundCheckOffset = _groundCheckOffset
+        };
 
         [Inject]
         private void Init(PlayerInputSystem playerInput, GameStateService gameStateService)
@@ -47,12 +66,13 @@ namespace _Project.Scripts.PlayerSystem
             if (_rb == null)
                 _rb = GetComponent<Rigidbody>();
 
-            _rb.freezeRotation = true;
-            _rb.interpolation = RigidbodyInterpolation.Interpolate;
+            _motor = new CharacterMotor(_rb, MovementSettings);
         }
 
         private void OnEnable()
         {
+            _motor.Reset();
+            _jumpPressed = false;
             _playerInput.Player.Enable();
             _playerInput.Player.Jump.performed += OnJumpPerformed;
         }
@@ -65,64 +85,20 @@ namespace _Project.Scripts.PlayerSystem
 
         private void FixedUpdate()
         {
-            CheckGround();
-            Move();
-            Jump();
-        }
+            var frame = new InputFrame(_playerInput.Player.Move.ReadValue<Vector2>(), _jumpPressed);
+            _jumpPressed = false;
+            InputCaptured?.Invoke(frame);
 
-        private void CheckGround()
-        {
-            _isGrounded = _rb.linearVelocity.y <= 0.1f &&
-                          Physics.CheckSphere(transform.position + _groundCheckOffset, _groundCheckRadius,
-                              _groundLayers, QueryTriggerInteraction.Ignore);
-
-            if (_isGrounded)
-                _lastGroundedTime = Time.time;
-        }
-
-        private void Move()
-        {
-            var input = _playerInput.Player.Move.ReadValue<Vector2>();
-            var direction = new Vector3(input.x, 0f, input.y);
-
-            var velocity = _rb.linearVelocity;
-            var horizontal = new Vector3(velocity.x, 0f, velocity.z);
-            var acceleration = _isGrounded ? _acceleration : _acceleration * _airControl;
-
-            horizontal = Vector3.MoveTowards(horizontal, direction * _moveSpeed, acceleration * Time.fixedDeltaTime);
-            _rb.linearVelocity = new Vector3(horizontal.x, velocity.y, horizontal.z);
-
-            if (direction.sqrMagnitude > 0.0001f)
-            {
-                var target = Quaternion.LookRotation(direction, Vector3.up);
-                _rb.MoveRotation(Quaternion.RotateTowards(_rb.rotation, target, _rotationSpeed * Time.fixedDeltaTime));
-            }
-        }
-
-        private void Jump()
-        {
-            var hasBufferedJump = Time.time - _lastJumpPressedTime <= _jumpBufferTime;
-            var canJump = Time.time - _lastGroundedTime <= _coyoteTime;
-
-            if (hasBufferedJump && canJump)
-            {
-                var velocity = _rb.linearVelocity;
-                velocity.y = Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * _jumpHeight);
-                _rb.linearVelocity = velocity;
-
-                _lastJumpPressedTime = float.NegativeInfinity;
-                _lastGroundedTime = float.NegativeInfinity;
-            }
-
-            if (_rb.linearVelocity.y < 0f && _gravityMultiplier > 1f)
-                _rb.AddForce(Physics.gravity * (_gravityMultiplier - 1f), ForceMode.Acceleration);
+            // Finishing a recording can disable this controller for the rewind.
+            if (isActiveAndEnabled)
+                _motor.Simulate(frame, Time.fixedDeltaTime);
         }
 
         private void OnJumpPerformed(InputAction.CallbackContext context)
         {
             if (_gameStateService.CurrentState == GameState.Pause) return;
 
-            _lastJumpPressedTime = Time.time;
+            _jumpPressed = true;
         }
     }
 }
