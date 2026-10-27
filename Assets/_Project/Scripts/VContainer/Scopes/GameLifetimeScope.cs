@@ -7,6 +7,7 @@ using _Project.Scripts.PlayerSystem;
 using _Project.Scripts.RecordSystem;
 using _Project.Scripts.RewindSystem;
 using _Project.Scripts.UI;
+using _Project.Scripts.UI.Level;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -21,6 +22,7 @@ namespace _Project.Scripts.VContainer.Scopes
         [SerializeField] private WinTrigger _winTrigger;
         [SerializeField] private List<MonoBehaviour> _rewindItems;
         [SerializeField] private LevelMenuController _levelMenuController;
+        [SerializeField] private LevelTimerView _levelTimerView;
         
         [Space] [Header("Prefabs")] [Space]
         [SerializeField] private Echo _echoPrefab;
@@ -41,6 +43,8 @@ namespace _Project.Scripts.VContainer.Scopes
             builder.RegisterComponent(_levelManager);
             builder.RegisterComponent(_winTrigger);
             builder.RegisterComponent(_levelMenuController);
+            if (_levelTimerView != null)
+                builder.RegisterComponent(_levelTimerView);
 
             var rewindItems = _rewindItems.OfType<IRewindable>().ToList();
             builder.RegisterInstance<IReadOnlyList<IRewindable>>(rewindItems);

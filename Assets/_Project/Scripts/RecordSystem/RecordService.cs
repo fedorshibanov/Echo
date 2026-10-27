@@ -15,15 +15,22 @@ namespace _Project.Scripts.RecordSystem
 
     public interface IRecordService
     {
+        int RemainingSeconds { get; }
+        event Action<int> RemainingSecondsChanged;
+
         bool TryStartRecord(List<InputFrame> inputFrames, float time, Action onComplete);
     }
 
     public class RecordService : IRecordService, IDisposable
     {
+        public int RemainingSeconds { get; private set; }
+        public event Action<int> RemainingSecondsChanged;
+
         private readonly PlayerController _playerController;
         private List<InputFrame> _inputFrames;
         private Action _onComplete;
         private int _remainingFrames;
+        private float _recordStep;
 
         public RecordService(PlayerController playerController)
         {
@@ -47,8 +54,10 @@ namespace _Project.Scripts.RecordSystem
             }
 
             _inputFrames = inputFrames ?? throw new ArgumentNullException(nameof(inputFrames));
-            _remainingFrames = Mathf.Max(1, Mathf.RoundToInt(time / Time.fixedDeltaTime));
+            _recordStep = Time.fixedDeltaTime;
+            _remainingFrames = Mathf.Max(1, Mathf.RoundToInt(time / _recordStep));
             _onComplete = onComplete;
+            UpdateRemainingSeconds();
             return true;
         }
 
@@ -60,14 +69,23 @@ namespace _Project.Scripts.RecordSystem
             {
                 _inputFrames.Add(frame);
                 _remainingFrames--;
+                UpdateRemainingSeconds();
                 return;
             }
 
-            // Complete on the next tick: the last recorded input has now passed through physics.
             var onComplete = _onComplete;
             _inputFrames = null;
             _onComplete = null;
             onComplete?.Invoke();
+        }
+
+        private void UpdateRemainingSeconds()
+        {
+            var seconds = Mathf.CeilToInt(_remainingFrames * _recordStep);
+            if (RemainingSeconds == seconds) return;
+
+            RemainingSeconds = seconds;
+            RemainingSecondsChanged?.Invoke(seconds);
         }
     }
 }
