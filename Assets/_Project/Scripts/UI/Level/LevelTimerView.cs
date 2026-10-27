@@ -1,4 +1,6 @@
+using _Project.Scripts.Animations;
 using _Project.Scripts.RecordSystem;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using VContainer;
@@ -11,6 +13,7 @@ namespace _Project.Scripts.UI.Level
 
         private IRecordService _recordService;
         private bool _started;
+        private Sequence _timerTween;
 
         [Inject]
         private void Init(IRecordService recordService) => _recordService = recordService;
@@ -28,6 +31,9 @@ namespace _Project.Scripts.UI.Level
 
         private void OnDisable()
         {
+            _timerTween?.Kill();
+            _timerTween = null;
+
             if (!_started) return;
 
             _recordService.RemainingSecondsChanged -= ShowRemainingSeconds;
@@ -36,9 +42,14 @@ namespace _Project.Scripts.UI.Level
         private void Subscribe()
         {
             _recordService.RemainingSecondsChanged += ShowRemainingSeconds;
-            ShowRemainingSeconds(_recordService.RemainingSeconds);
+            _timerText.SetText("{0}", _recordService.RemainingSeconds);
         }
 
-        private void ShowRemainingSeconds(int seconds) => _timerText.SetText("{0}", seconds);
+        private void ShowRemainingSeconds(int seconds)
+        {
+            _timerTween?.Kill();
+            _timerText.SetText("{0}", seconds);
+            _timerTween = Anim.Level.TimerDigitBounce(_timerText.transform);
+        }
     }
 }
