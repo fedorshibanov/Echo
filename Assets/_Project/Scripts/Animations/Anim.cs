@@ -11,6 +11,32 @@ namespace _Project.Scripts.Animations
     {
         public static class Level
         {
+            public static Sequence TimerDigitBounce(
+                Transform target, float duration = 0.3f, float scaleMultiplier = 1.15f, float rotation = 8f)
+            {
+                if (target == null) throw new ArgumentNullException(nameof(target));
+
+                var originalScale = target.localScale;
+                var originalRotation = target.localRotation;
+                var peakRotation = originalRotation * Quaternion.Euler(0f, 0f, rotation);
+                var halfDuration = duration * 0.5f;
+
+                var sequence = DOTween.Sequence();
+                sequence.Append(target.DOScale(originalScale * scaleMultiplier, halfDuration).SetEase(Ease.OutQuad));
+                sequence.Join(target.DOLocalRotateQuaternion(peakRotation, halfDuration).SetEase(Ease.OutQuad));
+                sequence.Append(target.DOScale(originalScale, halfDuration).SetEase(Ease.InOutQuad));
+                sequence.Join(target.DOLocalRotateQuaternion(originalRotation, halfDuration).SetEase(Ease.InOutQuad));
+                sequence.SetLink(target.gameObject, LinkBehaviour.KillOnDisable);
+                sequence.OnKill(() =>
+                {
+                    if (target == null) return;
+                    target.localScale = originalScale;
+                    target.localRotation = originalRotation;
+                });
+
+                return sequence;
+            }
+            
             public static Sequence CollapseMoveExpand(
                 IList<Transform> targets, Vector3 point, bool keepFormation = true,
                 GameObject spherePrefab = null, float sphereSize = 0.5f,
