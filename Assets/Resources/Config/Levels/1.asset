@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.LevelData
   scene:
-    m_AssetGUID: 650864568630d4e45bb3f094a590608e
+    m_AssetGUID: 73d6baa82f84e4e448cc230e91840d5e
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: 1
-  echoMax: 20
+  echoMax: 2
   time: 5
