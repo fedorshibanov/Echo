@@ -40,7 +40,7 @@ namespace _Project.Scripts.Level
         {
             _player.transform.position = _spawnPoint.position;
             
-            for (var i = 0; i < _levelConfig.echoMax; i++)
+            for (var i = 0; i < _levelConfig.echoMax - 1; i++)
             {
                 var frames = new List<InputFrame>();
                 var done = new TaskCompletionSource<bool>();
