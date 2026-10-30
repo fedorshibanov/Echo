@@ -44,6 +44,8 @@ namespace _Project.Scripts.RewindSystem
 
             await seq.AsyncWaitForCompletion();
 
+            Physics.SyncTransforms();
+
             if (entities)
                 foreach (var echo in _echoService.GetEchos())
                     echo.Controller.MoveEcho();
@@ -61,6 +63,11 @@ namespace _Project.Scripts.RewindSystem
         private static void Toggle(Rigidbody rb, Behaviour controller, bool on)
         {
             rb.isKinematic = !on;
+            if (on)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
             controller.enabled = on;
         }
     }

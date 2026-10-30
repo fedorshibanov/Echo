@@ -26,7 +26,8 @@ namespace _Project.Scripts.EchoSystem
         {
             var echo = _objectResolver.Instantiate(_echoPrefab);
             
-            echo.transform.SetPositionAndRotation(position.position, position.rotation);
+            echo.Rigidbody.position = position.position;
+            echo.Rigidbody.rotation = position.rotation;
             echo.Controller.ConfigureMovement(_playerController.MovementSettings);
             echo.Controller.SetFrames(frames);
             

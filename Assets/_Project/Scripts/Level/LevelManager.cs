@@ -38,7 +38,10 @@ namespace _Project.Scripts.Level
 
         private async Task StartGameCycle()
         {
-            _player.transform.position = _spawnPoint.position;
+            _player.Rigidbody.position = _spawnPoint.position;
+            _player.Rigidbody.rotation = _spawnPoint.rotation;
+            _player.Rigidbody.linearVelocity = Vector3.zero;
+            _player.Rigidbody.angularVelocity = Vector3.zero;
             
             for (var i = 0; i < _levelConfig.echoMax; i++)
             {
