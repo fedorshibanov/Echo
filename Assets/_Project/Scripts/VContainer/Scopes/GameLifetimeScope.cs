@@ -6,6 +6,7 @@ using _Project.Scripts.Level;
 using _Project.Scripts.PlayerSystem;
 using _Project.Scripts.RecordSystem;
 using _Project.Scripts.RewindSystem;
+using _Project.Scripts.SaveSystem;
 using _Project.Scripts.UI;
 using _Project.Scripts.UI.Level;
 using UnityEngine;
@@ -50,6 +51,11 @@ namespace _Project.Scripts.VContainer.Scopes
             builder.RegisterInstance<IReadOnlyList<IRewindable>>(rewindItems);
             
             builder.RegisterEntryPoint<GameEntryPoint>();
+
+#if UNITY_EDITOR
+            builder.Register<ISceneChanger, SceneChanger>(Lifetime.Singleton);
+            builder.Register<ISaveService, JsonSaveService>(Lifetime.Scoped);
+#endif
         }
     }
 }
