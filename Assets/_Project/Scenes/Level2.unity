@@ -3446,7 +3446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253feace37a7458fa6005d8ee3327fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.LevelManager
-  _levelConfig: {fileID: 11400000, guid: dfe9e229c174cea459b8e727e5d4e1e2, type: 2}
+  _levelConfig: {fileID: 11400000, guid: 749a0f3c1d13761418e91d2bcf8db38c, type: 2}
   _spawnPoint: {fileID: 605445628}
 --- !u!1 &996931218
 GameObject:
