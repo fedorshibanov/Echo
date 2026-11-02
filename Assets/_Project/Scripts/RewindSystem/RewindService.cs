@@ -22,58 +22,35 @@ namespace _Project.Scripts.RewindSystem
             _items = items;
         }
 
-        public Task RewindAll(Vector3 spawnPoint, Quaternion spawnRotation) => Play(spawnPoint, spawnRotation, true, true);
-        public Task RewindEntities(Vector3 spawnPoint, Quaternion spawnRotation) => Play(spawnPoint, spawnRotation, true, false);
-        public Task RewindItems() => Play(Vector3.zero, Quaternion.identity, false, true);
+        public Task RewindAll(Vector3 spawnPoint) => Play(spawnPoint, true, true);
+        public Task RewindEntities(Vector3 spawnPoint) => Play(spawnPoint, true, false);
+        public Task RewindItems() => Play(Vector3.zero, false, true);
 
-        private async Task Play(Vector3 spawnPoint, Quaternion spawnRotation, bool entities, bool items)
+        private async Task Play(Vector3 spawnPoint, bool entities, bool items)
         {
             SetControl(false);
-            var itemBodies = items
-                ? _items.SelectMany(i => ((Component)i).GetComponentsInChildren<Rigidbody>(true))
-                    .Distinct().ToDictionary(rb => rb, rb => rb.isKinematic)
-                : new Dictionary<Rigidbody, bool>();
-            foreach (var body in itemBodies.Keys)
+            var seq = DOTween.Sequence();
+
+            if (entities)
             {
-                if (!body.isKinematic)
-                {
-                    body.linearVelocity = Vector3.zero;
-                    body.angularVelocity = Vector3.zero;
-                }
-                body.isKinematic = true;
+                var targets = _echoService.GetEchos().Select(e => e.transform).Prepend(_player.transform).ToList();
+                seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, false));
+            }
+            if (items)
+            {
+                var targets = _items.Select(i => ((Component)i).transform).ToList();
+                seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, onHidden: i => _items[i].Rewind()));
             }
 
-            try
-            {
-                var seq = DOTween.Sequence();
-                if (entities)
-                {
-                    var targets = _echoService.GetEchos().Select(e => e.transform).Prepend(_player.transform).ToList();
-                    seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, false, onHidden: i =>
-                        targets[i].SetPositionAndRotation(spawnPoint, spawnRotation)));
-                }
-                if (items)
-                {
-                    var targets = _items.Select(i => ((Component)i).transform).ToList();
-                    seq.Join(Anim.Level.CollapseMoveExpand(targets, spawnPoint, onHidden: i => _items[i].Rewind()));
-                }
+            await seq.AsyncWaitForCompletion();
 
-                await seq.AsyncWaitForCompletion();
-
-                Physics.SyncTransforms();
-            }
-            finally
-            {
-                foreach (var entry in itemBodies)
-                    if (entry.Key != null)
-                        entry.Key.isKinematic = entry.Value;
-
-                SetControl(true);
-            }
+            Physics.SyncTransforms();
 
             if (entities)
                 foreach (var echo in _echoService.GetEchos())
                     echo.Controller.MoveEcho();
+
+            SetControl(true);
         }
 
         private void SetControl(bool on)
