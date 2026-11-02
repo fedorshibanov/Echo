@@ -16,8 +16,8 @@ namespace _Project.Scripts.InteractionObjects
 
         private void OnDisable()
         {
-            _plate.OnActivated -= Open;
-            _plate.OnDeactivated -= Close;
+            _plate.OnActivated += Open;
+            _plate.OnDeactivated += Close;
         }
 
         private void Open()
