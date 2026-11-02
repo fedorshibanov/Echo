@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using _Project.Scripts.Animations;
 using DG.Tweening;
 using TMPro;
@@ -18,6 +19,7 @@ namespace _Project.Scripts.InteractionObjects
         public event Action OnDeactivated;
         public event Action OnChanged;
 
+        private readonly Dictionary<IPlateInteractable, int> _occupants = new();
         private float _allMass;
         private bool _isActivated;
         private Vector3 _restPosition;
@@ -39,6 +41,10 @@ namespace _Project.Scripts.InteractionObjects
             if (_model != null)
                 _model.localPosition = _restPosition;
 
+            foreach (var occupant in _occupants.Keys)
+                occupant.OnDisabled -= RemoveOccupant;
+            _occupants.Clear();
+
             _allMass = 0f;
             UpdateMassText();
             if (_isActivated)
@@ -53,6 +59,14 @@ namespace _Project.Scripts.InteractionObjects
             if (!other.TryGetComponent<IPlateInteractable>(out var obj))
                 return;
 
+            if (_occupants.TryGetValue(obj, out int contacts))
+            {
+                _occupants[obj] = contacts + 1;
+                return;
+            }
+
+            _occupants.Add(obj, 1);
+            obj.OnDisabled += RemoveOccupant;
             _allMass += obj.Mass;
             UpdateLoad();
         }
@@ -62,6 +76,24 @@ namespace _Project.Scripts.InteractionObjects
             if (!other.TryGetComponent<IPlateInteractable>(out var obj))
                 return;
 
+            if (!_occupants.TryGetValue(obj, out int contacts))
+                return;
+
+            if (contacts > 1)
+            {
+                _occupants[obj] = contacts - 1;
+                return;
+            }
+
+            RemoveOccupant(obj);
+        }
+
+        private void RemoveOccupant(IPlateInteractable obj)
+        {
+            if (!_occupants.Remove(obj))
+                return;
+
+            obj.OnDisabled -= RemoveOccupant;
             _allMass = Mathf.Max(0f, _allMass - obj.Mass);
             UpdateLoad();
         }

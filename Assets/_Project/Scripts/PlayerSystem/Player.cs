@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.EchoSystem;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RewindSystem;
@@ -11,6 +12,10 @@ namespace _Project.Scripts.PlayerSystem
     {
         [SerializeField] private float _mass;
         public float Mass => _mass;
+
+        public event Action<IPlateInteractable> OnDisabled;
+
+        private void OnDisable() => OnDisabled?.Invoke(this);
         
         [SerializeField] private PlayerController _controller;
         public PlayerController Controller => _controller;

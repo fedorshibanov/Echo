@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.InteractionObjects;
 using _Project.Scripts.RewindSystem;
 using UnityEngine;
@@ -10,6 +11,10 @@ namespace _Project.Scripts.EchoSystem
     {
         [SerializeField] private float _mass;
         public float Mass => _mass;
+
+        public event Action<IPlateInteractable> OnDisabled;
+
+        private void OnDisable() => OnDisabled?.Invoke(this);
 
         [SerializeField] private EchoController _controller;
         public EchoController Controller => _controller;

@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.RewindSystem;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ namespace _Project.Scripts.InteractionObjects
     {
         [SerializeField] private float _mass;
         public float Mass => _mass;
+
+        public event Action<IPlateInteractable> OnDisabled;
+
+        private void OnDisable() => OnDisabled?.Invoke(this);
         
         [Space]
         [SerializeField] private Rigidbody _rb;
