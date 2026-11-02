@@ -11,6 +11,15 @@ namespace _Project.Scripts.Animations
     {
         public static class Level
         {
+            public static Tween PressPlate(
+                Transform target, float restY, float depth, float load, float duration = 0.2f)
+            {
+                if (target == null) throw new ArgumentNullException(nameof(target));
+
+                return target.DOLocalMoveY(restY - depth * Mathf.Clamp01(load), duration)
+                    .SetEase(Ease.OutQuad)
+                    .SetLink(target.gameObject, LinkBehaviour.KillOnDisable);
+            }
             public static Sequence TimerDigitBounce(
                 Transform target, float duration = 0.3f, float scaleMultiplier = 1.15f, float rotation = 8f)
             {
