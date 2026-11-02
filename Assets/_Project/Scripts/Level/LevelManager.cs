@@ -43,7 +43,7 @@ namespace _Project.Scripts.Level
             _player.Rigidbody.linearVelocity = Vector3.zero;
             _player.Rigidbody.angularVelocity = Vector3.zero;
             
-            for (var i = 0; i < _levelConfig.echoMax - 1; i++)
+            for (var i = 0; i < _levelConfig.echoMax; i++)
             {
                 var frames = new List<InputFrame>();
                 var done = new TaskCompletionSource<bool>();
@@ -53,6 +53,8 @@ namespace _Project.Scripts.Level
 
                 await done.Task;
                 if (this == null) return;
+
+                if (i == _levelConfig.echoMax - 1) break;
 
                 await _rewindService.RewindAll(_spawnPoint.position);
                 if (this == null) return;
