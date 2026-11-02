@@ -494,6 +494,83 @@ MonoBehaviour:
   _mass: 2
   _controller: {fileID: 162625530}
   _rb: {fileID: 162625528}
+--- !u!1001 &168758556
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949700768133285613, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4407547469654451538, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4407547469654451538, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728422533920686819, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_Name
+      value: DoorSys
+      objectReference: {fileID: 0}
+    - target: {fileID: 5864087968789351263, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5864087968789351263, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493553681328450313, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.156
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a14adea9c5b417e4e936b0b79448dbbc, type: 3}
 --- !u!1 &183596848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,25 +1647,9 @@ MonoBehaviour:
   m_Mesh: {fileID: 2128725151}
   m_VersionIndex: 1543
   m_IsSelectable: 1
-  m_SelectedFaces: 0100000008000000
-  m_SelectedEdges:
-  - a: 4
-    b: 5
-  - a: 6
-    b: 4
-  - a: 5
-    b: 7
-  - a: 7
-    b: 6
-  - a: 34
-    b: 35
-  - a: 36
-    b: 34
-  - a: 35
-    b: 37
-  - a: 37
-    b: 36
-  m_SelectedVertices: 0400000005000000060000000700000022000000230000002400000025000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!1 &352225110
 GameObject:
   m_ObjectHideFlags: 0
@@ -6785,3 +6846,4 @@ SceneRoots:
   - {fileID: 66147726}
   - {fileID: 360362732}
   - {fileID: 2122421368}
+  - {fileID: 168758556}

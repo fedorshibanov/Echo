@@ -61,8 +61,8 @@ Transform:
   m_GameObject: {fileID: 7824482626789186507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: -0.5}
-  m_LocalScale: {x: 0.3, y: 2.5, z: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -0.5}
+  m_LocalScale: {x: 0.3, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4407547469654451538}
@@ -339,3 +339,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.InteractionObjects.Door
   _plate: {fileID: 7084648417224270838}
+  _collider: {fileID: 2871550984927097884}
