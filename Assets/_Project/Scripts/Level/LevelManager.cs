@@ -56,11 +56,9 @@ namespace _Project.Scripts.Level
 
                 if (i == _levelConfig.echoMax - 1) break;
 
-                await _rewindService.RewindAll(_spawnPoint.position);
+                _echoFactory.Spawn(frames, _spawnPoint);
+                await _rewindService.RewindAll(_spawnPoint.position, _spawnPoint.rotation);
                 if (this == null) return;
-
-                var echo = _echoFactory.Spawn(frames, _spawnPoint);
-                echo.Controller.MoveEcho();
             }
 
             await Task.WhenAll(_echoService.GetEchos().Select(echo => echo.Controller.PlaybackCompletion));
